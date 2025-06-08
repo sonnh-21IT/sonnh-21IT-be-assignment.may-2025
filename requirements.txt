@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+email-validator
+sqlalchemy
+aiosqlite
+asyncpg
+alembic
+pydantic
+python-dotenv
+pytest
+httpx
+pytest-asyncio
+black
+isort

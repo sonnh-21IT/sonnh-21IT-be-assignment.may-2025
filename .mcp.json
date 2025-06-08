@@ -1,0 +1,87 @@
+{
+    "tools": [
+        {
+            "path": "/users/",
+            "method": "POST",
+            "name": "create_user",
+            "description": "Create a new user in the system with the provided email and name."
+        },
+        {
+            "path": "/users/",
+            "method": "GET",
+            "name": "list_users",
+            "description": "Get a list of all users in the system, possibly paginated."
+        },
+        {
+            "path": "/users/{user_id}",
+            "method": "GET",
+            "name": "get_user_details",
+            "description": "Get a user's details based on their ID."
+        },
+        {
+            "path": "/messages/",
+            "method": "POST",
+            "name": "send_message",
+            "description": "Send a message from one sender to one or more recipients.",
+            "parameters": {
+                "sender_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The ID of the message sender."
+                },
+                "recipient_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "description": "List of message recipient IDs."
+                },
+                "subject": {
+                    "type": "string",
+                    "description": "The title of the message."
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content of the message."
+                }
+            }
+        },
+        {
+            "path": "/messages/{message_id}",
+            "method": "GET",
+            "name": "get_message_details",
+            "description": "Get details of a message by message ID."
+        },
+        {
+            "path": "/messages/recipients/{recipient_entry_id}/read",
+            "method": "PATCH",
+            "name": "mark_message_as_read",
+            "description": "Mark a specific message (received by a specific user) as read."
+        },
+        {
+            "path": "/users/{user_id}/sent_messages",
+            "method": "GET",
+            "name": "get_sent_messages",
+            "description": "View a list of all messages a user has sent."
+        },
+        {
+            "path": "/users/{user_id}/inbox",
+            "method": "GET",
+            "name": "get_inbox_messages",
+            "description": "View all messages in the user's inbox. Including read and unread messages."
+        },
+        {
+            "path": "/users/{user_id}/inbox/unread",
+            "method": "GET",
+            "name": "get_unread_inbox_messages",
+            "description": "View all unread messages in the user's inbox."
+        },
+        {
+            "path": "/messages/{message_id}/recipients",
+            "method": "GET",
+            "name": "get_message_recipients",
+            "description": "View all recipients of a specific message and their read status."
+        }
+    ]
+}

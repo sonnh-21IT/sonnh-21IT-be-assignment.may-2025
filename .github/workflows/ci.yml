@@ -1,0 +1,55 @@
+# .github/workflows/ci.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    pull_request:
+      branches:
+        - main
+        - develop
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: ${{ secrets.DB_CONNECTION_STRING_FASTAPI }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install just (command runner)
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/bin
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: just install
+
+      - name: Start services (Docker Compose)
+        run: just up
+
+      - name: Wait for services to be healthy
+        run: |
+          echo "Waiting for PostgreSQL to be healthy..."
+          timeout 300s bash -c 'until docker compose ps | grep -q "db.*(healthy)"; do sleep 5; done'
+          echo "PostgreSQL is healthy!"
+
+          echo "Waiting for FastAPI API to be up..."
+          timeout 300s bash -c 'until docker compose ps | grep -q "api.*Up"; do sleep 5; done'
+
+      - name: Run tests
+        run: just test
+
+      - name: Stop services (Docker Compose)
+        if: always()
+        run: just down
