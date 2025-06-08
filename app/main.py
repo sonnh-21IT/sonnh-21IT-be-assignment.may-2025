@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from . import models
-from .db import engine, create_tables
+from .db import engine
 from .routes import api_router
 
 app = FastAPI(title="Messaging System API", version="1.0.0")
