@@ -83,7 +83,7 @@ All scripts for development and testing must be included in a `Justfile`. The fo
 - `[x]` `just test`
 - `[x]` `just down` (optional)
 - `[x]` `just up` (optional)
-- `[ ]` `just mcp` (optional)
+- `[x]` `just mcp` (optional)
 - `[x]` `just format` (optional)
 
 ### D3. CI/CD With Github Action
